@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-//#include <limits.h>
+// #include <limits.h>
 #include <stdlib.h>
 #include <ctype.h>
 // #include<windows.h>
@@ -244,11 +244,12 @@ void DUMP_REGS_F()
 }
 void INPUT()
 {
+    printf("\nplease enter the value of array[0]:");
     scanf("%d", &array[0]);
 }
 void OUTPUT()
 {
-    printf("%d", array[0]);
+    printf("\narray[0]: %d", array[0]);
 }
 void DIV(int srs, int srt)
 {
@@ -282,7 +283,7 @@ int errorandis(int a, int b, int c, char command[])
     if (a < 0 || b < 0 || c < 0)
     {
         red();
-        printf("\nerror:you have negative argument in %s", command);
+        printf("\nerror:you have a negative argument in %s", command);
         reset();
         checkandis = 0;
     }
@@ -307,7 +308,7 @@ int main(int argc, char *argv[])
     FILE *enter;
     if (argc < 2)
     {
-        printf("the file name is: in.txt\n");
+        printf("\nthe file name is: in.txt");
         enter = fopen("in.txt", "r");
     }
     else
@@ -315,13 +316,13 @@ int main(int argc, char *argv[])
         printf("the file name is: %s\n", argv[1]);
         enter = fopen(argv[1], "r");
     }
-    while (fscanf(enter, "%[^\n]\ns", buffer) != EOF)
+    while (fscanf(enter, "%[^\n]\n", buffer) != EOF)
     {
         checktotallines++;
     }
     // enter= fopen(name,"r");
     rewind(enter);
-    while (fscanf(enter, "%[^\n]\ns", buffer) != EOF)
+    while (fscanf(enter, "%[^\n]\n", buffer) != EOF)
     {
         int a, b, c;
         for (int i = 0; i < sizeof(buffer); i++)
@@ -329,11 +330,16 @@ int main(int argc, char *argv[])
             buffer[i] = toupper(buffer[i]);
         }
         char command[15] = {'\0'};
-        for (j = 0; buffer[j] != ' '; j++)
+        for (j = 0; buffer[j] != ' ' && buffer[j] != '\n' && buffer[j] != '/' && buffer[j] != '\0'; j++)
         {
             command[j] = buffer[j];
         }
         // command[j+1]='\0';
+
+        if(command[0] == '\0'){
+            continue;
+        }
+
         if (strcmp(command, "EXIT") == 0)
         {
             exit(0);
@@ -444,41 +450,42 @@ int main(int argc, char *argv[])
                 yellow();
                 printf("\nbackwards loop has ended.");
                 reset();
-                fscanf(enter, "%[^\n]\n", buffer);
+                //fscanf(enter, "%[^\n]\n", buffer);
+                countjmp=0;
             }
             else
             {
                 sscanf(buffer, "JMP %d", &a);
-                if(a<=0)
+                if (a <= 0)
                 {
                     red();
                     printf("\nerror,you can't jump to a zero or a negative line.");
                     reset();
                 }
-                else if(a > checktotallines)
+                else if (a > checktotallines)
                 {
                     red();
-                    printf("\nerror,you only have %d lines.",checktotallines);
+                    printf("\nerror,you only have %d lines.", checktotallines);
                     reset();
                 }
                 else
                 {
-                rewind(enter);
-                while (countlines != a)
-                {
-                    countchars++;
-                    if (fgetc(enter) == '\n')
+                    rewind(enter);
+                    while (countlines != a)
                     {
-                        countlines++;
+                        //countchars++;
+                        if (fgetc(enter) == '\n')
+                        {
+                            countlines++;
+                        }
                     }
-                }
-                fseek(enter, countchars + 1, SEEK_SET);
-                fscanf(enter, "%[^\n]\n", buffer);
-                for (j = 0; buffer[j] != ' '; j++)
-                {
-                    command[j] = buffer[j];
-                }
-                command[j] = '\0';
+                    //fseek(enter, countchars + 1, SEEK_SET);
+                    //fscanf(enter, "%[^\n]\n", buffer);
+                    for (j = 0; buffer[j] != ' '; j++)
+                    {
+                        command[j] = buffer[j];
+                    }
+                    command[j] = '\0';
                 }
             }
         }
