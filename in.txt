@@ -1,20 +1,19 @@
-MOV S0, 2
-HSJNLA
-//hello
-MOV S1, 2 //hello
-jmp 2
-jmp -3
-ADD S2, S1, S0
-SUB S3, S1, S0
-AND S4, S1, S0
-XOR S5, S1, S0
-or S6, S1, S0
-kwhkhhfn
-ANDI S7, S1, 3
-OUTPUT
+MOV S1, 2
+MOV S15, 8
+ADD S2, s1, S15
+sub s9, s4, s5
+SUBI S15, 1
+addi s2, 3
+MULL S25, S15
+JMP 1
+//comment
+jmp 12//this is a comment
+MOV S23, 9
+suzkqdljlk
+xor s-5, s1, s0
+SKIE S3, S4
+mov s1, s4, s8
+jmp 23
 DUMP_REGS
-exit
+OR S1, S15, s2
 DUMP_REGS_F
-ADD S12, S1, S0
-SWP S1, S2
-DUMP_REGS
